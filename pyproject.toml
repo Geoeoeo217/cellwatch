@@ -10,11 +10,11 @@ readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
 authors = [
-    { name = "TEAM MEMBER 1" },
-    { name = "TEAM MEMBER 2" },
-    { name = "TEAM MEMBER 3" },
-    { name = "TEAM MEMBER 4" },
-    { name = "TEAM MEMBER 5" },
+    { name = "NATHANAEL George Steindhart" },
+    { name = "SETIAWAN Matthew Henson" },
+    { name = "LATHIF Muhammad Akmal" },
+    { name = "HANDAYA Clement Steward" },
+    { name = "KWAN Kendrick Matthew" },
 ]
 keywords = ["jupyter", "ipython", "notebook", "variables", "diff", "education"]
 classifiers = [
