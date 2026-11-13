@@ -31,6 +31,8 @@ just did to them.
   cell runs, records them again afterwards, and reports only the differences.
 - **It spots in-place changes.** `scores.sort()` does not assign anything, so
   it is easy to miss. `cellwatch` labels it `modified in place`.
+- **A timeline per variable.** `%cellwatch history x` lists every recorded
+  change to `x` and the cell that made it.
 - **It complements existing tools.** `%whos` lists variables but shows no
   changes. [Kishu](https://github.com/illinoisdata/kishu) can undo a cell but
   does not explain what the cell changed. `cellwatch` is the explaining part,
@@ -64,6 +66,22 @@ x = 10
 ...
 %cellwatch off
 ```
+
+**See the timeline of a variable** across all watched cells (the number in
+brackets is the cell's execution number):
+
+```python
+%cellwatch history scores
+```
+
+```text
+cellwatch history for 'scores':
+  [1] + scores = [3, 1, 2]  (list)
+  [2] ~ scores: [3, 1, 2] -> [1, 2, 3]  (modified in place)
+```
+
+`%cellwatch history` without a name lists every change, and `%cellwatch clear`
+empties the history.
 
 How to read a report:
 
@@ -106,11 +124,21 @@ print(format_changes(diff(before, snapshot(globals()))))
 ## Development
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/cellwatch
+git clone https://github.com/Geoeoeo217/cellwatch
 cd cellwatch
 pip install -e ".[dev]"
 pytest
 ```
+
+How the code is organised:
+
+| File | Job |
+|---|---|
+| `snapshot.py` | Record every user variable at one moment |
+| `compare.py` | Compare two snapshots and list the differences |
+| `report.py` | Turn the differences into a text report |
+| `history.py` | Remember the changes made by every watched cell |
+| `magic.py` | The `%%cellwatch` and `%cellwatch` notebook commands |
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for how the team works and what is left
 to build.

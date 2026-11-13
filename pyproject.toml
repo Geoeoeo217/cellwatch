@@ -12,6 +12,9 @@ license = { text = "MIT" }
 authors = [
     { name = "TEAM MEMBER 1" },
     { name = "TEAM MEMBER 2" },
+    { name = "TEAM MEMBER 3" },
+    { name = "TEAM MEMBER 4" },
+    { name = "TEAM MEMBER 5" },
 ]
 keywords = ["jupyter", "ipython", "notebook", "variables", "diff", "education"]
 classifiers = [
@@ -27,9 +30,9 @@ dependencies = ["ipython>=7.0"]
 dev = ["pytest", "build", "twine"]
 
 [project.urls]
-Homepage = "https://github.com/YOUR-USERNAME/cellwatch"
-Documentation = "https://github.com/YOUR-USERNAME/cellwatch#readme"
-Issues = "https://github.com/YOUR-USERNAME/cellwatch/issues"
+Homepage = "https://github.com/Geoeoeo217/cellwatch"
+Documentation = "https://github.com/Geoeoeo217/cellwatch#readme"
+Issues = "https://github.com/Geoeoeo217/cellwatch/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/cellwatch"]

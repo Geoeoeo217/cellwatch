@@ -1,56 +1,69 @@
 # Working on cellwatch as a team
 
-## One-time setup
+## Who uploads what
+
+The package is built from five modules. Each module depends only on the ones
+above it in this table, so push them **in this order**.
+
+| Order | Person | Files to push |
+|---|---|---|
+| 0 | Repository owner | `pyproject.toml`, `README.md`, `CONTRIBUTING.md`, `LICENSE`, `.gitignore`, `src/cellwatch/__init__.py` |
+| 1 | Member 1 | `src/cellwatch/snapshot.py`, `tests/test_snapshot.py` |
+| 2 | Member 2 | `src/cellwatch/compare.py`, `tests/test_compare.py` |
+| 3 | Member 3 | `src/cellwatch/report.py`, `tests/test_report.py` |
+| 4 | Member 4 | `src/cellwatch/history.py`, `tests/test_history.py` |
+| 5 | Member 5 | `src/cellwatch/magic.py`, `tests/test_magic.py` |
+
+The repository owner is also one of the five members. The `%%cellwatch`
+command works once all five modules are in.
+
+## One-time setup (every member)
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/cellwatch
+git clone https://github.com/Geoeoeo217/cellwatch
 cd cellwatch
 pip install -e ".[dev]"
-pytest
 ```
 
-`pip install -e .` is an "editable" install: Python uses the files in this
-folder directly, so your edits take effect without reinstalling.
+`git clone` downloads the repository. `pip install -e .` is an "editable"
+install: Python uses the files in this folder directly, so your edits take
+effect without reinstalling.
 
-## Every time you make a change
+## Pushing your module
 
 ```bash
-git pull                              # get your teammates' latest work
-git checkout -b short-name-of-change  # work on your own branch
-# ...edit files...
-pytest                                # all tests must pass
-git add -A
-git commit -m "Say what changed and why"
-git push -u origin short-name-of-change
+git pull                     # get your teammates' latest work first
+# copy your two files into src/cellwatch/ and tests/
+pytest                       # every test must pass
+git add src/cellwatch/YOURFILE.py tests/test_YOURFILE.py
+git commit -m "Add YOURFILE module: one line on what it does"
+git push
 ```
 
-Then open a pull request on GitHub and ask a teammate to look at it.
-Small, frequent commits are better than one big one.
+If `git push` is rejected, a teammate pushed before you: run `git pull` and
+then `git push` again.
 
-## Where things are
+## After the first five pushes
 
-| File | What it holds |
-|---|---|
-| `src/cellwatch/core.py` | Snapshot and diff logic (no Jupyter needed) |
-| `src/cellwatch/magic.py` | The `%%cellwatch` and `%cellwatch` commands |
-| `tests/` | Automatic tests, run with `pytest` |
-| `pyproject.toml` | Package name, version, dependencies |
+One commit each is a start, not a "regular commit history". Each member
+should own their module from here on and keep improving it:
 
-## Open tasks (pick one each)
+- **snapshot.py** – option to ignore chosen variable names; faster handling
+  of very large values.
+- **compare.py** – for lists and dictionaries, say which items were added or
+  removed instead of only before/after.
+- **report.py** – coloured HTML table for notebooks (green created, yellow
+  changed, red deleted).
+- **history.py** – limit the history size; export the history as a list of
+  dictionaries.
+- **magic.py** – `%cellwatch ignore NAME`; a demo notebook in `examples/`
+  that doubles as the 1-minute presentation script.
 
-1. **Coloured notebook output.** Show the report as an HTML table with green
-   (created), yellow (changed) and red (deleted) rows. Start in `magic.py`.
-2. **Ignore list.** `%cellwatch ignore name1 name2` hides variables the user
-   does not care about. Needs a new option in `magic.py` and a test.
-3. **History.** `%cellwatch history x` lists every change made to `x` so far.
-4. **Demo notebook.** Add `examples/demo.ipynb` that walks through the use
-   cases in the README; this is also the script for the 1-minute presentation.
-5. **Documentation site.** Publish the docs with GitHub Pages.
-6. **Release.** Fill in the author names and repository links in
-   `pyproject.toml`, then publish to PyPI (see below).
+Small, frequent commits with clear messages are better than one big one.
 
 ## Publishing to PyPI
 
-1. Raise `version` in `pyproject.toml` and in `src/cellwatch/__init__.py`.
-2. `python -m build` creates the files to upload in `dist/`.
-3. `twine upload dist/*` uploads them; it asks for a PyPI API token.
+1. Fill in the author names in `pyproject.toml`.
+2. Raise `version` in `pyproject.toml` and in `src/cellwatch/__init__.py`.
+3. `python -m build` creates the files to upload in `dist/`.
+4. `twine upload dist/*` uploads them; it asks for a PyPI API token.
