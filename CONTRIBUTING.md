@@ -7,12 +7,11 @@ above it in this table, so push them **in this order**.
 
 | Order | Person | Files to push |
 |---|---|---|
-| 0 | Repository owner | `pyproject.toml`, `README.md`, `CONTRIBUTING.md`, `LICENSE`, `.gitignore`, `src/cellwatch/__init__.py` |
-| 1 | Member 1 | `src/cellwatch/snapshot.py`, `tests/test_snapshot.py` |
-| 2 | Member 2 | `src/cellwatch/compare.py`, `tests/test_compare.py` |
-| 3 | Member 3 | `src/cellwatch/report.py`, `tests/test_report.py` |
-| 4 | Member 4 | `src/cellwatch/history.py`, `tests/test_history.py` |
-| 5 | Member 5 | `src/cellwatch/magic.py`, `tests/test_magic.py` |
+| 0 | NATHANAEL George Steindhart | `pyproject.toml`, `README.md`, `LICENSE`, `.gitignore`, `src/cellwatch/__init__.py`, `src/cellwatch/snapshot.py`, `tests/test_snapshot.py` |
+| 1 | HANDAYA Clement Steward | `src/cellwatch/compare.py`, `tests/test_compare.py` |
+| 2 | SETIAWAN Matthew Henson | `src/cellwatch/report.py`, `tests/test_report.py`, `CONTRIBUTING.md`|
+| 3 | LATHIF Muhammad Akmal | `src/cellwatch/history.py`, `tests/test_history.py` |
+| 4 | KWAN Kendrick Matthew | `src/cellwatch/magic.py`, `tests/test_magic.py` |
 
 The repository owner is also one of the five members. The `%%cellwatch`
 command works once all five modules are in.
