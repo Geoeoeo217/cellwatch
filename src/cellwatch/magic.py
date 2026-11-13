@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import ast
+
 from IPython.core.magic import Magics, line_cell_magic, magics_class
 
 from .compare import diff
@@ -55,12 +57,39 @@ class CellWatchMagics(Magics):
         cell_number = self._cell_number()
         before = snapshot(self.shell.user_ns)
         try:
-            self.shell.run_cell(cell)
+            self._execute(cell)
         finally:
+            # Report even if the cell stopped with an error part-way through.
             self._auto = was_auto
-        changes = diff(before, snapshot(self.shell.user_ns))
-        self.history.record(cell_number, changes)
-        print(format_changes(changes))
+            changes = diff(before, snapshot(self.shell.user_ns))
+            self.history.record(cell_number, changes)
+            print(format_changes(changes))
+
+    def _execute(self, cell):
+        """Run the cell's code in the notebook's own variables.
+
+        We run the code ourselves instead of calling ``shell.run_cell``,
+        because some kernels (for example xeus-python, used by JupyterLite
+        and some JupyterHubs) do not support calling it from inside a magic.
+        """
+        # Turn notebook-only syntax such as ``!ls`` or ``%time`` into Python.
+        code = self.shell.transform_cell(cell)
+        # ast.parse turns the text into a list of statements.
+        tree = ast.parse(code, filename="<cellwatch>")
+        last_expression = None
+        if tree.body and isinstance(tree.body[-1], ast.Expr):
+            # A cell ending in a bare expression (e.g. ``total``) shows its
+            # value, so run that last line separately and display the result.
+            last_expression = ast.Expression(tree.body.pop().value)
+        namespace = self.shell.user_ns
+        exec(compile(tree, "<cellwatch>", "exec"), namespace)
+        if last_expression is not None:
+            ast.fix_missing_locations(last_expression)
+            value = eval(compile(last_expression, "<cellwatch>", "eval"), namespace)
+            if value is not None:
+                from IPython.display import display
+
+                display(value)
 
     def _cell_number(self):
         """The number shown as ``In [n]`` beside the cell that is running.

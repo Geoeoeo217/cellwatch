@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "cellwatch"
-version = "0.1.0"
+version = "0.1.1"
 description = "See exactly which variables a Jupyter cell created, changed or deleted."
 readme = "README.md"
 requires-python = ">=3.9"

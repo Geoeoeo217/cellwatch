@@ -1,6 +1,6 @@
 """cellwatch: see which variables a Jupyter cell created, changed or deleted."""
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 # Public names and the module each one lives in.
 _PUBLIC = {

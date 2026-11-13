@@ -50,3 +50,25 @@ def test_history_uses_the_cell_number(ip, capsys):
     capsys.readouterr()
     ip.run_line_magic("cellwatch", "history numbered")
     assert f"[{result.execution_count}] + numbered = 1" in capsys.readouterr().out
+
+
+def test_cell_magic_does_not_call_run_cell(ip, capsys, monkeypatch):
+    """Some kernels (xeus-python) break if a magic calls shell.run_cell."""
+
+    def forbidden(*args, **kwargs):
+        raise TypeError("run_cell must not be used inside the magic")
+
+    monkeypatch.setattr(ip, "run_cell", forbidden)
+    ip.run_cell_magic("cellwatch", "", "no_run_cell = 5")
+    assert "+ no_run_cell = 5" in capsys.readouterr().out
+
+
+def test_last_expression_is_displayed(ip, capsys):
+    ip.run_cell_magic("cellwatch", "", "shown = 7\nshown * 6")
+    assert "42" in capsys.readouterr().out
+
+
+def test_report_is_printed_even_when_the_cell_fails(ip, capsys):
+    with pytest.raises(ZeroDivisionError):
+        ip.run_cell_magic("cellwatch", "", "before_error = 1\n1 / 0")
+    assert "+ before_error = 1" in capsys.readouterr().out
