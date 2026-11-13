@@ -1,0 +1,38 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cellwatch"
+version = "0.1.0"
+description = "See exactly which variables a Jupyter cell created, changed or deleted."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+    { name = "TEAM MEMBER 1" },
+    { name = "TEAM MEMBER 2" },
+]
+keywords = ["jupyter", "ipython", "notebook", "variables", "diff", "education"]
+classifiers = [
+    "Framework :: IPython",
+    "Framework :: Jupyter",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Education",
+]
+dependencies = ["ipython>=7.0"]
+
+[project.optional-dependencies]
+dev = ["pytest", "build", "twine"]
+
+[project.urls]
+Homepage = "https://github.com/YOUR-USERNAME/cellwatch"
+Documentation = "https://github.com/YOUR-USERNAME/cellwatch#readme"
+Issues = "https://github.com/YOUR-USERNAME/cellwatch/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cellwatch"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
